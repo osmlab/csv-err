@@ -41,3 +41,9 @@ sudo /etc/init.d/postgresql start
 
 sudo apt-get install -y nodejs npm
 sudo ln -s /usr/bin/nodejs /usr/bin/node
+
+# I don't know why but sometimes it doesn't start the first time :/
+sudo /etc/init.d/postgresql start
+
+echo -e "-----\n\n"
+s3cmd --configure

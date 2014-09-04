@@ -1,3 +1,5 @@
+set -e -u
+
 # views:
 # http://tools.geofabrik.de/osmi/view
 

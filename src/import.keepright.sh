@@ -1,3 +1,5 @@
+set -e -u
+
 # create the db
 sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 keepright
 

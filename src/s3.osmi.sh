@@ -1,3 +1,5 @@
+set -e -u
+
 FILE="osmi-$(date +%s).zip"
 
 zip -r ${FILE} osmi-tasks/

@@ -1,3 +1,5 @@
+set -e -u
+
 FILE="tigermissing-$(date +%s).zip"
 
 zip -r ${FILE} tigermissing-tasks/

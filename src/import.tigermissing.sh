@@ -1,3 +1,5 @@
+set -e -u
+
 curl -f "http://trafficways.org/obsolete/missing.json.gz" -o missing.json.gz
 sudo gunzip missing.json.gz
 

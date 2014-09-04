@@ -1,3 +1,5 @@
+set -e -u
+
 mkdir tigermissing-tasks
 
 echo "

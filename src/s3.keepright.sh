@@ -1,3 +1,5 @@
+set -e -u
+
 FILE="keepright-$(date +%s).zip"
 
 echo $FILE

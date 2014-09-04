@@ -1,3 +1,5 @@
+set -e -u
+
 apt-get -y update
 
 echo "- installing postgres + postgis"

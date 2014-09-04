@@ -63,55 +63,68 @@ echo "
 " | psql -U postgres keepright
 
 # let's pick a few errors: https://gist.github.com/aaronlidman/7bb7b84f2a6689f7e94f
-echo "importing select error layers"
+echo " --- importing select error layers"
+echo " --- selecting nonclosedways"
 echo "
     CREATE TABLE nonclosedways AS SELECT object_type, object_id, wkb_geometry from errors where error_name = 'non-closed areas' order by random();
 " | psql -U postgres keepright
 
+echo " --- selecting deadendoneway"
 echo "
     CREATE TABLE deadendoneway AS SELECT object_type, object_id, wkb_geometry from errors where error_name = 'dead-ended one-ways' order by random();
 " | psql -U postgres keepright
 
+echo " --- selecting impossibleangle"
 echo "
     CREATE TABLE impossibleangle AS SELECT object_type, object_id, wkb_geometry from errors where error_name = 'impossible angles' order by random();
 " | psql -U postgres keepright
 
+echo " --- selecting mixedlayer"
 echo "
     CREATE TABLE mixedlayer as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'mixed layers intersections' order by random();
 " | psql -U postgres keepright
 
+echo " --- selecting highwaywater"
 echo "
     CREATE TABLE highwaywater as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'highway-waterway' order by random();
 " | psql -U postgres keepright
 
+echo " --- selecting doubledplaces"
 echo "
     CREATE TABLE doubledplaces as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'doubled places' order by random();
 " | psql -U postgres keepright
 
+echo " --- selecting highwayfootpath"
 echo "
     CREATE TABLE highwayfootpath as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'highway-cyclew/footp' order by random();
 " | psql -U postgres keepright
 
+echo " --- selecting mispelledtags"
 echo "
     CREATE TABLE mispelledtags as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'misspelled tags' order by random();
 " | psql -U postgres keepright
 
+echo " --- selecting island"
 echo "
     CREATE TABLE island as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'floating islands' order by random();
 " | psql -U postgres keepright
 
+echo " --- selecting almostjunction"
 echo "
     CREATE TABLE almostjunction as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'almost-junctions' order by random();
 " | psql -U postgres keepright
 
+echo " --- selecting highwayhighway"
 echo "
     CREATE TABLE highwayhighway as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'highway-highway' order by random();
 " | psql -U postgres keepright
 
+echo " --- selecting highwayriverbank"
 echo "
     CREATE TABLE highwayriverbank as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'highway-riverbank' order by random();
 " | psql -U postgres keepright
 
+echo " --- selecting strangelayer"
 echo "
     CREATE TABLE strangelayer as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'strange layers' order by random();
 " | psql -U postgres keepright

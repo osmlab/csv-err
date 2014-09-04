@@ -5,18 +5,18 @@
 	# waiting for it to stabilize
 
 install:
-	sh install.sh
+	sh src/install.sh
 
 all:
 	sudo make keepright
 	sudo make osmi
 
 keepright:
-	sh import.keepright.sh
-	sh tasks.keepright.sh
-	sh s3.keepright.sh
+	sh src/import.keepright.sh
+	sh src/tasks.keepright.sh
+	sh src/s3.keepright.sh
 
 osmi:
-	sh import.osmi.sh
-	sh tasks.osmi.sh
-	sh s3.keepright.sh
+	sh src/import.osmi.sh
+	sh src/tasks.osmi.sh
+	sh src/s3.keepright.sh

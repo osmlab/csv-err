@@ -21,3 +21,8 @@ tigerdelta:
 	sh src/import.tigerdelta.sh
 	sh src/tasks.tigerdelta.sh
 	sh src/s3.tigerdelta.sh
+
+npsdiff:
+	sh src/import.npsdiff.sh
+	sh src/tasks.npsdiff.sh
+	sh src/s3.npsdiff.sh

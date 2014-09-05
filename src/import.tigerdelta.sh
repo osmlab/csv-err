@@ -1,7 +1,7 @@
 set -e -u
 
 echo " --- downloading"
-curl -f "http://trafficways.org/obsolete/missing.json.gz" -o missing.json.gz
+curl -f "http://trafficways.org/obsolete/osm-diff-2014.json.gz" -o missing.json.gz
 
 echo " --- unzipping"
 sudo gunzip missing.json.gz

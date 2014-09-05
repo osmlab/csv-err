@@ -19,7 +19,7 @@ keepright:
 osmi:
 	sh src/import.osmi.sh
 	sh src/tasks.osmi.sh
-	sh src/s3.keepright.sh
+	sh src/s3.osmi.sh
 
 tigerdelta:
 	sh src/import.tigerdelta.sh

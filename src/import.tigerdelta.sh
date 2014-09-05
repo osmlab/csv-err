@@ -9,7 +9,7 @@ sudo gunzip missing.json.gz
 echo " --- splitting into chunks"
 split -l 100000 missing.json chunks-
 
-sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 tigermissing
+sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 tigerdelta
 
 # http://gis.stackexchange.com/a/16357/26389
 echo '{"type":"FeatureCollection","features":[' > head
@@ -34,6 +34,6 @@ echo " --- inserting into postgis"
 # insert each chunk into postgis
 for f in j-*;
     do
-        sudo -u postgres ogr2ogr -update -append -f PostgreSQL PG:dbname=tigermissing $f
+        sudo -u postgres ogr2ogr -update -append -f PostgreSQL PG:dbname=tigerdelta $f
         rm -rf $f
     done

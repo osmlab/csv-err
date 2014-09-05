@@ -1,9 +1,5 @@
 .PHONY: keepright osmi all
 
-# need tigerdelta
-	# import, tasks, backup
-	# waiting for it to stabilize
-
 install:
 	sh src/install.sh
 

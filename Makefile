@@ -20,3 +20,8 @@ osmi:
 	sh src/import.osmi.sh
 	sh src/tasks.osmi.sh
 	sh src/s3.keepright.sh
+
+tigerdelta:
+	sh src/import.tigerdelta.sh
+	sh src/tasks.tigerdelta.sh
+	sh src/s3.tigerdelta.sh

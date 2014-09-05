@@ -1,8 +1,12 @@
 set -e -u
 
+echo " --- downloading"
 curl -f "http://trafficways.org/obsolete/missing.json.gz" -o missing.json.gz
+
+echo " --- unzipping"
 sudo gunzip missing.json.gz
 
+echo " --- splitting into chunks"
 split -l 100000 missing.json chunks-
 
 sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 tigermissing
@@ -18,6 +22,7 @@ for f in chunks-*;
         rm -rf $f
     done
 
+echo " --- creating valid geojson"
 # add featurecollection head and tail
 for f in c-*;
     do
@@ -25,6 +30,7 @@ for f in c-*;
         rm -f $f;
     done
 
+echo " --- inserting into postgis"
 # insert each chunk into postgis
 for f in j-*;
     do

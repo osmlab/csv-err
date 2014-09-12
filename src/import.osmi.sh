@@ -31,6 +31,7 @@ curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&V
 
 sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 osmi
 
+echo " --- importing osmi"
 for a in $(ls *.gml); do
     sudo -u postgres ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -overwrite -f PostgreSQL PG:dbname=osmi $a
 done

@@ -43,7 +43,7 @@ curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&V
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=40,-80,45,80&TYPENAME=islands" -o 9.islands.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=45,-80,50,80&TYPENAME=islands" -o 10.islands.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=50,-80,55,80&TYPENAME=islands" -o 11.islands.gml
-curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1..0&REQUEST=GetFeature&BBOX=55,-80,60,80&TYPENAME=islands" -o 12.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=55,-80,60,80&TYPENAME=islands" -o 12.islands.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=60,-80,65,80&TYPENAME=islands" -o 13.islands.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=65,-80,70,80&TYPENAME=islands" -o 14.islands.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=70,-80,75,80&TYPENAME=islands" -o 15.islands.gml
@@ -68,6 +68,43 @@ curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&V
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=165,-80,170,80&TYPENAME=islands" -o 34.islands.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=170,-80,175,80&TYPENAME=islands" -o 35.islands.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=175,-80,180,80&TYPENAME=islands" -o 36.islands.gml
+
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-0,-80,-5,80&TYPENAME=islands" -o 37.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-5,-80,-10,80&TYPENAME=islands" -o 38.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-10,-80,-15,80&TYPENAME=islands" -o 39.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-15,-80,-20,80&TYPENAME=islands" -o 40.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-20,-80,-25,80&TYPENAME=islands" -o 41.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-25,-80,-30,80&TYPENAME=islands" -o 42.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-30,-80,-35,80&TYPENAME=islands" -o 43.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-35,-80,-40,80&TYPENAME=islands" -o 44.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-40,-80,-45,80&TYPENAME=islands" -o 45.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-45,-80,-50,80&TYPENAME=islands" -o 46.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-50,-80,-55,80&TYPENAME=islands" -o 47.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-55,-80,-60,80&TYPENAME=islands" -o 48.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-60,-80,-65,80&TYPENAME=islands" -o 49.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-65,-80,-70,80&TYPENAME=islands" -o 50.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-70,-80,-75,80&TYPENAME=islands" -o 51.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-75,-80,-80,80&TYPENAME=islands" -o 52.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-80,-80,-85,80&TYPENAME=islands" -o 53.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-85,-80,-90,80&TYPENAME=islands" -o 54.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-90,-80,-95,80&TYPENAME=islands" -o 55.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-95,-80,-100,80&TYPENAME=islands" -o 56.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-100,-80,-105,80&TYPENAME=islands" -o 57.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-105,-80,-110,80&TYPENAME=islands" -o 58.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-110,-80,-115,80&TYPENAME=islands" -o 59.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-115,-80,-120,80&TYPENAME=islands" -o 60.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-120,-80,-125,80&TYPENAME=islands" -o 61.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-125,-80,-130,80&TYPENAME=islands" -o 62.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-130,-80,-135,80&TYPENAME=islands" -o 63.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-135,-80,-140,80&TYPENAME=islands" -o 64.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-140,-80,-145,80&TYPENAME=islands" -o 65.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-145,-80,-150,80&TYPENAME=islands" -o 66.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-150,-80,-155,80&TYPENAME=islands" -o 67.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-155,-80,-160,80&TYPENAME=islands" -o 68.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-160,-80,-165,80&TYPENAME=islands" -o 69.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-165,-80,-170,80&TYPENAME=islands" -o 70.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-170,-80,-175,80&TYPENAME=islands" -o 71.islands.gml
+curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-175,-80,-180,80&TYPENAME=islands" -o 72.islands.gml
 
 sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 osmi
 

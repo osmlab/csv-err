@@ -117,6 +117,5 @@ done
 echo " --- importing osmi"
 for a in $(ls *.gml); do
     sudo -u postgres ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -overwrite -f PostgreSQL PG:dbname=osmi $a
+    rm -rf $a
 done
-
-rm -rf *.gml

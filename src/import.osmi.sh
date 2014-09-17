@@ -108,6 +108,12 @@ curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&V
 
 sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 osmi
 
+echo " --- importing islands"
+for a in $(ls *.islands.gml); do
+    sudo -u postgres ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:dbname=osmi $a
+    rm -rf $a
+done
+
 echo " --- importing osmi"
 for a in $(ls *.gml); do
     sudo -u postgres ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -overwrite -f PostgreSQL PG:dbname=osmi $a

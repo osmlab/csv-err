@@ -1,14 +1,16 @@
 set -e -u
 
-FILE="keepright-$(date +%s).zip"
+date=$(date)
 
-echo $FILE
-
-zip -r ${FILE} keepright-tasks/
-
-cp ${FILE} keepright-latest.zip
-
-s3cmd put --acl-public ${FILE} s3://to-fix/$FILE
-s3cmd put --acl-public keepright-latest.zip s3://to-fix/keepright-latest.zip
-
-rm -rf keepright-*.zip
+for file in $(ls keepright/*.csv); do
+    if [ $(stat -c%s "$a") -gt 1000 ]
+        # filter out request errors, don't want to wipe out good stuff
+        then
+            basename=${file:0,-4}
+            s3cmd put --acl-public ${file} s3://to-fix/${basename}-${date}.csv
+            s3cmd put --acl-public ${file} s3://to-fix/${basename}-latest.csv
+        else
+            echo " --- problem with ${file}, not uploaded"
+    fi
+    rm -rf $file
+done

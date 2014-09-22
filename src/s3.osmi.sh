@@ -1,12 +1,16 @@
 set -e -u
 
-FILE="osmi-$(date +%s).zip"
+date=$(date)
 
-zip -r ${FILE} osmi-tasks/
-
-cp ${FILE} osmi-latest.zip
-
-s3cmd put --acl-public ${FILE} s3://to-fix/${FILE}
-s3cmd put --acl-public osmi-latest.zip s3://to-fix/osmi-latest.zip
-
-rm -rf osmi-*.zip
+for file in $(ls keepright/*.csv); do
+    if [ $(stat -c%s "$a") -gt 1000 ]
+        # filter out request errors, don't want to wipe out good stuff
+        then
+            basename=${file:0,-4}
+            s3cmd put --acl-public ${file} s3://to-fix/${basename}-${date}.csv
+            s3cmd put --acl-public ${file} s3://to-fix/${basename}-latest.csv
+        else
+            echo " --- problem with ${file}, not uploaded"
+    fi
+    rm -rf $file
+done

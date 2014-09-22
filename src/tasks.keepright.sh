@@ -1,5 +1,3 @@
-set -e -u
-
 mkdir keepright-tasks
 
 echo "

@@ -1,5 +1,3 @@
-set -e -u
-
 mkdir osmi-tasks
 
 echo "

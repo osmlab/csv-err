@@ -1,6 +1,6 @@
 set -e -u
 
-echo " --- downloading"
+echo " --- downloading tigerdelta"
 curl -f "http://trafficways.org/obsolete/osm-diff-2014.json.gz" -o missing.json.gz
 
 echo " --- unzipping"

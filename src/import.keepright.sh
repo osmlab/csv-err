@@ -3,9 +3,10 @@ set -e -u
 # create the db
 sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 keepright
 
-# download keepright dump
+echo " --- downloading keepright dump"
 curl -f http://keepright.ipax.at/keepright_errors.txt.bz2 > errors.txt.bz2
-echo "unzipping error file"
+
+echo " --- opening up the keepright dump"
 bunzip2 errors.txt.bz2
 
 echo "
@@ -41,9 +42,9 @@ echo "
         txt5 bytea
     );
 " | psql -U postgres keepright
-# using bytea for now because I couldn't figure out encoding problems
+# using bytea for now
 
-echo "removing the header"
+echo " --- removing header"
 tail -n +2 errors.txt > errors-nohead.txt
 rm -rf errors.txt
 # fix NULL issues, NULLs for text in MySQL, not in Postgres
@@ -52,7 +53,7 @@ sed -i 's/\\N/NULLs/g' errors-nohead.txt
 sed -i 's/\\//g' errors-nohead.txt
 # way sloppy
 
-echo "importing errors to database"
+echo " --- keepright -> postgres"
 echo "
     COPY errors from '$PWD/errors-nohead.txt';
 " | psql -U postgres keepright
@@ -63,7 +64,6 @@ echo "
 " | psql -U postgres keepright
 
 # let's pick a few errors: https://gist.github.com/aaronlidman/7bb7b84f2a6689f7e94f
-echo " --- importing select error layers"
 echo " --- selecting nonclosedways"
 echo "
     CREATE TABLE nonclosedways AS SELECT object_type, object_id, wkb_geometry from errors where error_name = 'non-closed areas' order by random();
@@ -129,7 +129,7 @@ echo "
     CREATE TABLE strangelayer as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'strange layers' order by random();
 " | psql -U postgres keepright
 
-# drop the rest of the db that we don't need right now
+# drop the rest of the db that we don't need
 echo "
     DROP TABLE errors;
 " | psql -U postgres keepright

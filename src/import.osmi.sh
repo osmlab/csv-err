@@ -16,6 +16,8 @@ set -e -u
 # http://tools.geofabrik.de/osmi/views/highways/view.json
 # http://tools.geofabrik.de/osmi/views/routing/view.json
 
+echo " --- downloading general errors from osmi"
+
 # I'm only interested in certain layers
 # commented out lines send 500 err, I think there are just too many, want to find a way around that
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/multipolygon/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=role_mismatch_hull" -o role_mismatch_hull.gml
@@ -29,6 +31,8 @@ curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&V
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=unconnected_minor2" -o routing_minor2.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=unconnected_minor1" -o routing_minor1.gml
 # curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=duplicate_ways" -o duplicate_ways.gml
+
+echo " --- downloading osmi islands"
 
 # islands
 # a request every 5 degrees

@@ -1,6 +1,6 @@
 set -e -u
 
-echo " --- downloading"
+echo " --- downloading npsdiff"
 curl -f "http://trafficways.org/obsolete/nps-diff5.json.gz" -o nps-diff5.json.gz
 
 echo " --- unzipping"

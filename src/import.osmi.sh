@@ -7,9 +7,11 @@ unamestr=`uname`
 if [ "$unamestr" = 'Darwin' ]; then
    platform='osx'
    pg_user=`whoami`
+   stat='stat -f%z'
 elif [ "$unamestr" = 'Linux' ]; then
    platform='linux'
    pg_user='postgres'
+   stat='stat -c%s'
 fi
 
 # http://wiki.openstreetmap.org/wiki/OSM_Inspector/WxS
@@ -122,6 +124,8 @@ curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&V
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-175,-80,-170,80&TYPENAME=islands" -o 72.islands.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-180,-80,-175,80&TYPENAME=islands" -o 72.islands.gml
 
+# kill files with 
+
 dropdb -U $pg_user --if-exists osmi
 createdb -U $pg_user -E UTF8 osmi
 echo "CREATE EXTENSION postgis;
@@ -129,7 +133,7 @@ CREATE EXTENSION postgis_topology;" | psql -U $pg_user osmi
 
 echo " --- importing islands"
 for a in $(ls *.islands.gml); do
-    if [ $(stat -c%s "$a") -gt 1000 ]
+    if [ $($stat "$a") -gt 1000 ]
         then
             ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a            
         else
@@ -140,7 +144,7 @@ done
 
 echo " --- importing osmi"
 for a in $(ls *.gml); do
-    if [ $(stat -c%s "$a") -gt 1000 ]
+    if [ $($stat "$a") -gt 1000 ]
         then
             ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -overwrite -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a            
         else            

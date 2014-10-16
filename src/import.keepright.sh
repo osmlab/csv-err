@@ -16,22 +16,22 @@ fi
 echo " --- opening up the keepright dump"
 bunzip2 -kf keepright-errors.txt.bz2
 
-# create the db
-dropdb -U $pg_user --if-exists keepright
-createdb -U $pg_user -E UTF8 keepright
-echo "CREATE EXTENSION postgis;
-CREATE EXTENSION postgis_topology;" | psql -U $pg_user keepright
-
 # pull out header row of CSV
 echo " --- removing header"
-sed -i '' '1,1d' keepright-errors.txt
+sed -i.bak '1,1d' keepright-errors.txt && rm keepright-errors.txt.bak
 
 # fix NULL issues, NULLs for text in MySQL, not in Postgres
 # COPY takes slashes literally, remove them
 # the use of an actual extension w/ -i seems to be necessary to
 # avoid zero-length files as output. weird.
 echo " --- fixing NULL problems"
-sed -i .bak -e 's/\\//g' -e 's/\\N/NULLs/g' keepright-errors.txt && rm keepright-errors.txt.bak
+sed -i.bak -e 's/\\//g' -e 's/\\N/NULLs/g' keepright-errors.txt && rm keepright-errors.txt.bak
+
+# create the db
+dropdb -U $pg_user --if-exists keepright
+createdb -U $pg_user -E UTF8 keepright
+echo "CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;" | psql -U $pg_user keepright
 
 echo "
     CREATE TYPE obj_type AS ENUM('node', 'way', 'relation');

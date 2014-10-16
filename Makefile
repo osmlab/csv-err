@@ -30,7 +30,17 @@ tigerdelta: tiger-missing.json.gz
 	sh src/tasks.tigerdelta.sh
 	# sh src/s3.tigerdelta.sh
 
-npsdiff:
+npsdiff5.json.gz:
+	echo " --- downloading npsdiff"
+	curl -f "http://trafficways.org/obsolete/nps-diff5.json.gz" -o nps-diff5.json.gz
+
+npsdiff: npsdiff5.json.gz
 	sh src/import.npsdiff.sh
 	sh src/tasks.npsdiff.sh
 	# sh src/s3.npsdiff.sh
+
+clean:
+	rm -f tiger-missing.json.gz
+	rm -f keepright-errors.txt.bz2
+	rm -f *.gml
+	rm -rf nps-diff5.json.gz 

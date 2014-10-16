@@ -12,15 +12,13 @@ elif [ "$unamestr" = 'Linux' ]; then
    pg_user='postgres'
 fi
 
-echo " --- downloading npsdiff"
-curl -f "http://trafficways.org/obsolete/nps-diff5.json.gz" -o nps-diff5.json.gz
-
 echo " --- unzipping"
-gunzip nps-diff5.json.gz
+gunzip -kf nps-diff5.json.gz
 
 echo " --- splitting into chunks"
 split -l 100000 nps-diff5.json chunks-
 
+dropdb -U $pg_user --if-exists npsdiff
 createdb -U $pg_user -E UTF8 npsdiff
 echo "CREATE EXTENSION postgis;
 CREATE EXTENSION postgis_topology;" | psql -U $pg_user npsdiff

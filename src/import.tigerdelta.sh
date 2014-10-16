@@ -13,13 +13,16 @@ elif [ "$unamestr" = 'Linux' ]; then
 fi
 
 echo " --- unzipping"
-gunzip tiger-missing.json.gz
+gunzip -kf tiger-missing.json.gz
 
 echo " --- splitting into chunks"
-split -l 100000 missing.json chunks-
+split -l 100000 tiger-missing.json chunks-
 
 # sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 tigerdelta
-createdb -U $pg_user -T template_postgis -E UTF8 tigerdelta
+dropdb -U $pg_user --if-exists tigerdelta
+createdb -U $pg_user -E UTF8 tigerdelta
+echo "CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;" | psql -U $pg_user tigerdelta
 
 # http://gis.stackexchange.com/a/16357/26389
 echo '{"type":"FeatureCollection","features":[' > head

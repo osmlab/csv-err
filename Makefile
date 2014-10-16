@@ -3,10 +3,6 @@
 install:
 	sh src/install.sh
 
-all:
-	sudo make keepright
-	sudo make osmi
-
 keepright-errors.txt.bz2:
 	echo " --- downloading keepright dump"
 	curl -f http://keepright.ipax.at/keepright_errors.txt.bz2 > keepright-errors.txt.bz2
@@ -41,6 +37,15 @@ npsdiff: npsdiff5.json.gz
 
 clean:
 	rm -f tiger-missing.json.gz
+	rm -rf tigerdelta-tasks
+
 	rm -f keepright-errors.txt.bz2
+	rm -rf keepright-tasks
+
 	rm -f *.gml
+	rm -rf osmi-tasks
+
 	rm -rf nps-diff5.json.gz 
+	rm -rf npsdiff-tasks
+
+all: keepright osmi	

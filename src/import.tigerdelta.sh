@@ -42,6 +42,8 @@ for f in c-*;
         rm -f $f;
     done
 
+rm head tail
+
 echo " --- inserting into postgis"
 # insert each chunk into postgis
 for f in j-*;

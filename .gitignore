@@ -1,3 +1,4 @@
+npsdiff-tasks/
 keepright-tasks/
 tigerdelta-tasks/
 osmi-tasks/
@@ -5,3 +6,5 @@ keepright-errors.txt*
 *.gml
 nps-diff5.json*
 tiger-missing.json*
+head
+tail

@@ -1,9 +1,11 @@
+#!/bin/sh
+
 # detect platform
 unamestr=`uname`
-if [[ "$unamestr" == 'Darwin' ]]; then
+if [ "$unamestr" = 'Darwin' ]; then
    platform='osx'
    pg_user=`whoami`
-elif [[ "$unamestr" == 'Linux' ]]; then
+elif [ "$unamestr" = 'Linux' ]; then
    platform='linux'
    pg_user='postgres'
 fi

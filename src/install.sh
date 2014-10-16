@@ -31,15 +31,6 @@ elif [[ "$platform" == 'linux' ]]; then
    pg_user='postgres'
 fi
 
-# postgis template
-sudo -u $pg_user createdb -U postgres -E UTF8 template_postgis
-sudo -u $pg_user psql -U postgres -d postgres -c "UPDATE pg_database SET datistemplate='true' WHERE datname='template_postgis';"
-sudo -u $pg_user psql -U postgres -d template_postgis -c "CREATE EXTENSION postgis;"
-sudo -u $pg_user psql -U postgres -d template_postgis -c "GRANT ALL ON geometry_columns TO PUBLIC;"
-sudo -u $pg_user psql -U postgres -d template_postgis -c "GRANT ALL ON geography_columns TO PUBLIC;"
-sudo -u $pg_user psql -U postgres -d template_postgis -c "GRANT ALL ON spatial_ref_sys TO PUBLIC;"
-
-
 if [[ "$platform" == 'linux' ]]; then
 
    # play nicely with other users

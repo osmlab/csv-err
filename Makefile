@@ -36,16 +36,16 @@ npsdiff: npsdiff5.json.gz
 	# sh src/s3.npsdiff.sh
 
 clean:
-	rm -f tiger-missing.json.gz
+	rm -f tiger-missing.json*
 	rm -rf tigerdelta-tasks
 
-	rm -f keepright-errors.txt.bz2
+	rm -f keepright-errors.txt*
 	rm -rf keepright-tasks
 
 	rm -f *.gml
 	rm -rf osmi-tasks
 
-	rm -rf nps-diff5.json.gz 
+	rm -rf nps-diff5.json*
 	rm -rf npsdiff-tasks
 
 all: keepright osmi	

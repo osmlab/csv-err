@@ -1,15 +1,23 @@
 set -e -u
 
-echo " --- downloading tigerdelta"
-curl -f "http://trafficways.org/obsolete/osm-diff-2014.json.gz" -o missing.json.gz
+# detect platform
+unamestr=`uname`
+if [[ "$unamestr" == 'Darwin' ]]; then
+   platform='osx'
+   pg_user=`whoami`
+elif [[ "$unamestr" == 'Linux' ]]; then
+   platform='linux'
+   pg_user='postgres'
+fi
 
 echo " --- unzipping"
-sudo gunzip missing.json.gz
+gunzip tiger-missing.json.gz
 
 echo " --- splitting into chunks"
 split -l 100000 missing.json chunks-
 
-sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 tigerdelta
+# sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 tigerdelta
+createdb -U $pg_user -T template_postgis -E UTF8 tigerdelta
 
 # http://gis.stackexchange.com/a/16357/26389
 echo '{"type":"FeatureCollection","features":[' > head
@@ -34,6 +42,7 @@ echo " --- inserting into postgis"
 # insert each chunk into postgis
 for f in j-*;
     do
-        sudo -u postgres ogr2ogr -update -append -f PostgreSQL PG:dbname=tigerdelta $f
+        # sudo -u $pg_user ogr2ogr -update -append -f PostgreSQL PG:"dbname='tigerdelta' user='$pg_user'" $f
+        ogr2ogr -update -append -f PostgreSQL PG:"dbname='tigerdelta' user='$pg_user'" $f
         rm -rf $f
     done

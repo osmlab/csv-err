@@ -1,5 +1,15 @@
 set -e -u
 
+# detect platform
+unamestr=`uname`
+if [[ "$unamestr" == 'Darwin' ]]; then
+   platform='osx'
+   pg_user=`whoami`
+elif [[ "$unamestr" == 'Linux' ]]; then
+   platform='linux'
+   pg_user='postgres'
+fi
+
 # http://wiki.openstreetmap.org/wiki/OSM_Inspector/WxS
 
 # views:
@@ -110,13 +120,15 @@ curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&V
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-175,-80,-170,80&TYPENAME=islands" -o 72.islands.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-180,-80,-175,80&TYPENAME=islands" -o 72.islands.gml
 
-sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 osmi
+# sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 osmi
+createdb -U $pg_user -T template_postgis -E UTF8 osmi
 
 echo " --- importing islands"
 for a in $(ls *.islands.gml); do
     if [ $(stat -c%s "$a") -gt 1000 ]
         then
-            sudo -u postgres ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:dbname=osmi $a
+            # sudo -u $pg_user ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:dbname=osmi $a            
+            ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a            
         else
             echo " ---- problem with ${a}, not imported"
     fi
@@ -127,8 +139,10 @@ echo " --- importing osmi"
 for a in $(ls *.gml); do
     if [ $(stat -c%s "$a") -gt 1000 ]
         then
-            sudo -u postgres ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -overwrite -f PostgreSQL PG:dbname=osmi $a
-        else
+            # sudo -u $pg_user ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -overwrite -f PostgreSQL PG:dbname=osmi $a            
+            ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -overwrite -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a            
+
+        else            
             echo " ---- problem with ${a}, not imported"
     fi
     rm -rf $a

@@ -10,7 +10,7 @@ elif [ "$unamestr" = 'Linux' ]; then
    pg_user='postgres'
 fi
 
-
+rm -rf osmi-tasks
 mkdir osmi-tasks
 
 echo "
@@ -52,3 +52,5 @@ echo "
 echo "
     COPY (select ST_AsText(wkb_geometry) from islands order by random()) to stdout DELIMITER ',' HEADER CSV;
 " | psql -U $pg_user osmi > osmi-tasks/islands.csv
+
+rm *.gml

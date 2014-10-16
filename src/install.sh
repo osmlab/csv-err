@@ -1,18 +1,18 @@
-set -e -u
+#set -e -u
 
 # detect platform
 unamestr=`uname`
-if [[ "$unamestr" == 'Darwin' ]]; then
+if [ "$unamestr" = 'Darwin' ]; then
    platform='osx'
-elif [[ "$unamestr" == 'Linux' ]]; then
+elif [ "$unamestr" = 'Linux' ]; then
    platform='linux'
 fi
 
 # handle dependencies
-if [[ "$platform" == 'osx' ]]; then
+if [ "$platform" = 'osx' ]; then
    echo '- [OS X] Assuming you already have dependencies installed...'
    pg_user=`whoami`
-elif [[ "$platform" == 'linux' ]]; then
+elif [ "$platform" = 'linux' ]; then
    apt-get -y update
 
    echo "- installing postgres + postgis"
@@ -30,6 +30,7 @@ elif [[ "$platform" == 'linux' ]]; then
 
    pg_user='postgres'
 fi
+
 
 if [[ "$platform" == 'linux' ]]; then
 

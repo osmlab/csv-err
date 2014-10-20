@@ -1,21 +1,45 @@
+#!/bin/sh
+
 set -e -u
 
-# create the db
-sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 keepright
+# detect platform
+unamestr=`uname`
+if [ "$unamestr" = 'Darwin' ]; then
+   platform='osx'
+   pg_user=`whoami`
+elif [ "$unamestr" = 'Linux' ]; then
+   platform='linux'
+   pg_user='postgres'
+fi
 
-echo " --- downloading keepright dump"
-curl -f http://keepright.ipax.at/keepright_errors.txt.bz2 > errors.txt.bz2
-
+# uncompress the file
 echo " --- opening up the keepright dump"
-bunzip2 errors.txt.bz2
+bunzip2 -kf keepright-errors.txt.bz2
+
+# pull out header row of CSV
+echo " --- removing header"
+sed -i.bak '1,1d' keepright-errors.txt && rm keepright-errors.txt.bak
+
+# fix NULL issues, NULLs for text in MySQL, not in Postgres
+# COPY takes slashes literally, remove them
+# the use of an actual extension w/ -i seems to be necessary to
+# avoid zero-length files as output. weird.
+echo " --- fixing NULL problems"
+sed -i.bak -e 's/\\//g' -e 's/\\N/NULLs/g' keepright-errors.txt && rm keepright-errors.txt.bak
+
+# create the db
+dropdb -U $pg_user --if-exists keepright
+createdb -U $pg_user -E UTF8 keepright
+echo "CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;" | psql -U $pg_user keepright
 
 echo "
     CREATE TYPE obj_type AS ENUM('node', 'way', 'relation');
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo "
     CREATE TYPE the_state AS ENUM('new','reopened','ignore_temporarily','ignore');
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo "
     CREATE TABLE errors (
@@ -41,95 +65,86 @@ echo "
         txt4 bytea,
         txt5 bytea
     );
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 # using bytea for now
-
-echo " --- removing header"
-tail -n +2 errors.txt > errors-nohead.txt
-rm -rf errors.txt
-# fix NULL issues, NULLs for text in MySQL, not in Postgres
-sed -i 's/\\N/NULLs/g' errors-nohead.txt
-# COPY takes slashes literally, remove them
-sed -i 's/\\//g' errors-nohead.txt
-# way sloppy
 
 echo " --- keepright -> postgres"
 echo "
-    COPY errors from '$PWD/errors-nohead.txt';
-" | psql -U postgres keepright
+    COPY errors from '$PWD/keepright-errors.txt';
+" | psql -U $pg_user keepright
 
 echo "
     ALTER TABLE errors ADD COLUMN wkb_geometry GEOMETRY (POINT, 4326);
     UPDATE errors SET wkb_geometry = ST_SetSRID(ST_MakePoint(lon/10000000.0, lat/10000000.0), 4326);
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 # let's pick a few errors: https://gist.github.com/aaronlidman/7bb7b84f2a6689f7e94f
 echo " --- selecting nonclosedways"
 echo "
     CREATE TABLE nonclosedways AS SELECT object_type, object_id, wkb_geometry from errors where error_name = 'non-closed areas' order by random();
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo " --- selecting deadendoneway"
 echo "
     CREATE TABLE deadendoneway AS SELECT object_type, object_id, wkb_geometry from errors where error_name = 'dead-ended one-ways' order by random();
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo " --- selecting impossibleangle"
 echo "
     CREATE TABLE impossibleangle AS SELECT object_type, object_id, wkb_geometry from errors where error_name = 'impossible angles' order by random();
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo " --- selecting mixedlayer"
 echo "
     CREATE TABLE mixedlayer as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'mixed layers intersections' order by random();
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo " --- selecting highwaywater"
 echo "
     CREATE TABLE highwaywater as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'highway-waterway' order by random();
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo " --- selecting doubledplaces"
 echo "
     CREATE TABLE doubledplaces as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'doubled places' order by random();
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo " --- selecting highwayfootpath"
 echo "
     CREATE TABLE highwayfootpath as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'highway-cyclew/footp' order by random();
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo " --- selecting mispelledtags"
 echo "
     CREATE TABLE mispelledtags as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'misspelled tags' order by random();
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo " --- selecting island"
 echo "
     CREATE TABLE island as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'floating islands' order by random();
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo " --- selecting almostjunction"
 echo "
     CREATE TABLE almostjunction as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'almost-junctions' order by random();
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo " --- selecting highwayhighway"
 echo "
     CREATE TABLE highwayhighway as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'highway-highway' order by random();
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo " --- selecting highwayriverbank"
 echo "
     CREATE TABLE highwayriverbank as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'highway-riverbank' order by random();
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 echo " --- selecting strangelayer"
 echo "
     CREATE TABLE strangelayer as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'strange layers' order by random();
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright
 
 # drop the rest of the db that we don't need
 echo "
     DROP TABLE errors;
-" | psql -U postgres keepright
+" | psql -U $pg_user keepright

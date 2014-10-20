@@ -5,7 +5,10 @@ Normalizes existing datasources into minimal CSVs to fuel [to-fix](https://githu
 
 ![](./csv-err.png)
 
-### Installation
+### Installation on OS X
+- We assume that you have the following prerequisites installed/would prefer that we not install them for you: GDAL, postgis and s3cmd. All are available via [Homebrew](http://brew.sh).
+
+### Installation on Ubuntu
 - create your instance, I use `c3.xlarge`, others likely need some adjustments
 - log in: `ssh -i ~/.ssh/<your key.pem> ubuntu@<instance public DNS>`
 - `cd /mnt`

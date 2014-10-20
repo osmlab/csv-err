@@ -1,4 +1,18 @@
+#!/bin/sh
+
 set -e -u
+
+# detect platform
+unamestr=`uname`
+if [ "$unamestr" = 'Darwin' ]; then
+   platform='osx'
+   pg_user=`whoami`
+   stat='stat -f%z'
+elif [ "$unamestr" = 'Linux' ]; then
+   platform='linux'
+   pg_user='postgres'
+   stat='stat -c%s'
+fi
 
 # http://wiki.openstreetmap.org/wiki/OSM_Inspector/WxS
 
@@ -31,6 +45,7 @@ curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&V
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=unconnected_minor2" -o routing_minor2.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=unconnected_minor1" -o routing_minor1.gml
 # curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=duplicate_ways" -o duplicate_ways.gml
+
 
 echo " --- downloading osmi islands"
 
@@ -110,26 +125,32 @@ curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&V
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-175,-80,-170,80&TYPENAME=islands" -o 72.islands.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&BBOX=-180,-80,-175,80&TYPENAME=islands" -o 72.islands.gml
 
-sudo -u postgres createdb -U postgres -T template_postgis -E UTF8 osmi
+# kill files with 
+
+dropdb -U $pg_user --if-exists osmi
+createdb -U $pg_user -E UTF8 osmi
+echo "CREATE EXTENSION postgis;
+CREATE EXTENSION postgis_topology;" | psql -U $pg_user osmi
 
 echo " --- importing islands"
 for a in $(ls *.islands.gml); do
-    if [ $(stat -c%s "$a") -gt 1000 ]
+    if [ $($stat "$a") -gt 1000 ]
         then
-            sudo -u postgres ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:dbname=osmi $a
+            ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a            
+            rm -rf $a
         else
             echo " ---- problem with ${a}, not imported"
     fi
-    rm -rf $a
 done
 
 echo " --- importing osmi"
 for a in $(ls *.gml); do
-    if [ $(stat -c%s "$a") -gt 1000 ]
+    if [ $($stat "$a") -gt 1000 ]
         then
-            sudo -u postgres ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -overwrite -f PostgreSQL PG:dbname=osmi $a
-        else
+            ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -overwrite -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a            
+            rm -rf $a
+        else            
             echo " ---- problem with ${a}, not imported"
     fi
-    rm -rf $a
 done
+

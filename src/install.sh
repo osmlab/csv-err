@@ -60,4 +60,6 @@ if [ "$platform" = 'linux' ]; then
 
    echo -e "-----\n\n"
    s3cmd --configure
+   # fix permissions
+   chown ubuntu:ubuntu ~/.s3cfg
 fi

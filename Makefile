@@ -30,6 +30,10 @@ npsdiff5.json.gz:
 	echo " --- downloading npsdiff"
 	curl -f "http://trafficways.org/obsolete/nps-diff5.json.gz" -o nps-diff5.json.gz
 
+npsdiff5.json.gz:
+	echo " --- downloading npsdiff"
+	curl -f "http://trafficways.org/obsolete/nps-diff5.json.gz" -o nps-diff5.json.gz
+
 npsdiff: npsdiff5.json.gz
 	sh src/import.npsdiff.sh
 	sh src/tasks.npsdiff.sh

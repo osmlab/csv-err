@@ -1,3 +1,6 @@
+#!/bin/sh
+
+# disabled due to dead source in default ubuntu AMI
 #set -e -u
 
 # detect platform
@@ -32,7 +35,7 @@ elif [ "$platform" = 'linux' ]; then
 fi
 
 
-if [[ "$platform" == 'linux' ]]; then
+if [ "$platform" == 'linux' ]; then
 
    # play nicely with other users
    sh -c 'echo "

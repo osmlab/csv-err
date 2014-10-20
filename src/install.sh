@@ -35,7 +35,7 @@ elif [ "$platform" = 'linux' ]; then
 fi
 
 
-if [ "$platform" == 'linux' ]; then
+if [ "$platform" = 'linux' ]; then
 
    # play nicely with other users
    sh -c 'echo "

@@ -10,6 +10,7 @@ elif [ "$unamestr" = 'Linux' ]; then
    pg_user='postgres'
 fi
 
+rm -rf keepright-tasks
 mkdir keepright-tasks
 
 echo "

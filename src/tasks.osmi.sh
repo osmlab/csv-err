@@ -53,4 +53,4 @@ echo "
     COPY (select ST_AsText(wkb_geometry) from islands order by random()) to stdout DELIMITER ',' HEADER CSV;
 " | psql -U $pg_user osmi > osmi-tasks/islands.csv
 
-rm *.gml
+rm -f *.gml

@@ -12,5 +12,5 @@ rm -rf npsdiff-tasks
 mkdir npsdiff-tasks
 
 echo "
-    COPY (select ST_AsText(wkb_geometry) from ogrgeojson order by random()) to stdout DELIMITER ',' HEADER CSV;
+    COPY (select ST_AsText(wkb_geometry) from ogrgeojson) to stdout DELIMITER ',' HEADER CSV;
 " | psql -U $pg_user npsdiff > npsdiff-tasks/npsdiff.csv

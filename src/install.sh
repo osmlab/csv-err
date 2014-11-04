@@ -47,12 +47,13 @@ if [ "$platform" = 'linux' ]; then
 
    sudo killall postgres
 
-   mkdir -p /mnt/data/postgres/
-   cp -r /var/lib/postgresql/9.3/main/ /mnt/data/postgres/
    cd /var/lib/postgresql/9.3
+   cp -r main /mnt/data/postgres
+   chown -R postgres:postgres /mnt/data/postgres
+   rm -rf main
    ln -s /mnt/data/postgres/main main
 
-   sudo /etc/init.d/postgresql start
+   /etc/init.d/postgresql start
 
    # I don't know why but sometimes it doesn't start the first time :/
    sudo /etc/init.d/postgresql start

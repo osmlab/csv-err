@@ -144,6 +144,11 @@ echo "
     CREATE TABLE strangelayer as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'strange layers';
 " | psql -U $pg_user keepright
 
+echo " --- selecting loopings"
+echo "
+    CREATE TABLE loopings as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'loopings';
+" | psql -U $pg_user keepright
+
 # drop the rest of the db that we don't need
 echo "
     DROP TABLE errors;

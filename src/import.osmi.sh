@@ -31,10 +31,8 @@ fi
 
 echo " --- downloading general errors from osmi"
 # only interested in certain layers
-curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/multipolygon/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=role_mismatch_hull" -o role_mismatch_hull.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/multipolygon/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=role_mismatch" -o role_mismatch_ways.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/multipolygon/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=intersections" -o intersection_points.gml
-curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/multipolygon/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=intersection_lines" -o intersection_lines.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=unconnected_major5" -o routing_major5.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=unconnected_major2" -o routing_major2.gml
 curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&VERSION=1.0.0&REQUEST=GetFeature&TYPENAME=unconnected_major1" -o routing_major1.gml
@@ -200,28 +198,6 @@ echo "
     CREATE EXTENSION postgis;
     CREATE EXTENSION postgis_topology;
 " | psql -U $pg_user osmi
-
-echo " --- importing unconnected_minor5"
-for a in $(ls *.unconnected_minor5.gml); do
-    if [ $($stat "$a") -gt 1000 ]
-        then
-            ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a
-            rm -rf $a
-        else
-            echo " ---- problem with ${a}, not imported"
-    fi
-done
-
-echo " --- importing duplicate_ways"
-for a in $(ls *.duplicate_ways.gml); do
-    if [ $($stat "$a") -gt 1000 ]
-        then
-            ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a
-            rm -rf $a
-        else
-            echo " ---- problem with ${a}, not imported"
-    fi
-done
 
 echo " --- importing osmi"
 for a in $(ls *.gml); do

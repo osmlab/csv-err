@@ -4,13 +4,13 @@ set -e -u
 # detect platform
 unamestr=`uname`
 if [ "$unamestr" = 'Darwin' ]; then
-   platform='osx'
-   pg_user=`whoami`
-   stat='stat -f%z'
+    platform='osx'
+    pg_user=`whoami`
+    stat='stat -f%z'
 elif [ "$unamestr" = 'Linux' ]; then
-   platform='linux'
-   pg_user='postgres'
-   stat='stat -c%s'
+    platform='linux'
+    pg_user='postgres'
+    stat='stat -c%s'
 fi
 
 # http://wiki.openstreetmap.org/wiki/OSM_Inspector/WxS
@@ -195,14 +195,28 @@ curl --retry 5 -f "http://tools.geofabrik.de/osmi/view/routing/wxs?SERVICE=WFS&V
 
 dropdb -U $pg_user --if-exists osmi
 createdb -U $pg_user -E UTF8 osmi
-echo "CREATE EXTENSION postgis;
-CREATE EXTENSION postgis_topology;" | psql -U $pg_user osmi
 
-echo " --- importing islands"
-for a in $(ls *.islands.gml); do
+echo "
+    CREATE EXTENSION postgis;
+    CREATE EXTENSION postgis_topology;
+" | psql -U $pg_user osmi
+
+echo " --- importing unconnected_minor5"
+for a in $(ls *.unconnected_minor5.gml); do
     if [ $($stat "$a") -gt 1000 ]
         then
-            ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a            
+            ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a
+            rm -rf $a
+        else
+            echo " ---- problem with ${a}, not imported"
+    fi
+done
+
+echo " --- importing duplicate_ways"
+for a in $(ls *.duplicate_ways.gml); do
+    if [ $($stat "$a") -gt 1000 ]
+        then
+            ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a
             rm -rf $a
         else
             echo " ---- problem with ${a}, not imported"
@@ -213,10 +227,9 @@ echo " --- importing osmi"
 for a in $(ls *.gml); do
     if [ $($stat "$a") -gt 1000 ]
         then
-            ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -overwrite -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a            
+            ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -overwrite -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a
             rm -rf $a
-        else            
+        else
             echo " ---- problem with ${a}, not imported"
     fi
 done
-

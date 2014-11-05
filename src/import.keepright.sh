@@ -118,11 +118,6 @@ echo "
     CREATE TABLE mispelledtags as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'misspelled tags';
 " | psql -U $pg_user keepright
 
-echo " --- selecting almostjunction"
-echo "
-    CREATE TABLE almostjunction as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'almost-junctions';
-" | psql -U $pg_user keepright
-
 echo " --- selecting highwayhighway"
 echo "
     CREATE TABLE highwayhighway as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'highway-highway';

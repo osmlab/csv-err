@@ -46,7 +46,7 @@ echo "
 " | psql -U $pg_user osmi > osmi-tasks/unconnected_minor5.csv
 
 echo "
-    COPY (select way_id, node_id from duplicate_ways) to stdout DELIMITER ',' HEADER CSV;
+    COPY (select ST_AsText(wkb_geometry) from duplicate_ways) to stdout DELIMITER ',' HEADER CSV;
 " | psql -U $pg_user osmi > osmi-tasks/duplicate_ways.csv
 
 rm -f *.gml

@@ -199,6 +199,27 @@ echo "
     CREATE EXTENSION postgis_topology;
 " | psql -U $pg_user osmi
 
+# these are seperate because we append to the same table
+for a in $(ls *.unconnected_minor5.gml); do
+    if [ $($stat "$a") -gt 1000 ]
+        then
+            ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a
+            rm -rf $a
+        else
+            echo " ---- problem with ${a}, not imported"
+    fi
+done
+
+for a in $(ls *.duplicate_ways.gml); do
+    if [ $($stat "$a") -gt 1000 ]
+        then
+            ogr2ogr -s_srs EPSG:4326 -t_srs EPSG:4326 -append -f PostgreSQL PG:"dbname='osmi' user='$pg_user'" $a
+            rm -rf $a
+        else
+            echo " ---- problem with ${a}, not imported"
+    fi
+done
+
 echo " --- importing osmi"
 for a in $(ls *.gml); do
     if [ $($stat "$a") -gt 1000 ]

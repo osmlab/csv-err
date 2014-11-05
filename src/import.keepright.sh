@@ -1,5 +1,4 @@
 #!/bin/sh
-
 set -e -u
 
 # detect platform
@@ -119,16 +118,6 @@ echo "
     CREATE TABLE mispelledtags as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'misspelled tags';
 " | psql -U $pg_user keepright
 
-echo " --- selecting island"
-echo "
-    CREATE TABLE island as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'floating islands';
-" | psql -U $pg_user keepright
-
-echo " --- selecting almostjunction"
-echo "
-    CREATE TABLE almostjunction as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'almost-junctions';
-" | psql -U $pg_user keepright
-
 echo " --- selecting highwayhighway"
 echo "
     CREATE TABLE highwayhighway as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'highway-highway';
@@ -142,6 +131,11 @@ echo "
 echo " --- selecting strangelayer"
 echo "
     CREATE TABLE strangelayer as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'strange layers';
+" | psql -U $pg_user keepright
+
+echo " --- selecting loopings"
+echo "
+    CREATE TABLE loopings as SELECT object_type, object_id, wkb_geometry from errors where error_name = 'loopings';
 " | psql -U $pg_user keepright
 
 # drop the rest of the db that we don't need

@@ -42,10 +42,6 @@ echo "
 " | psql -U $pg_user keepright > keepright-tasks/mispelledtags.csv
 
 echo "
-    COPY (select object_type, object_id, ST_AsText(wkb_geometry) from island) to stdout DELIMITER ',' HEADER CSV;
-" | psql -U $pg_user keepright > keepright-tasks/island.csv
-
-echo "
     COPY (select object_type, object_id, ST_AsText(wkb_geometry) from almostjunction) to stdout DELIMITER ',' HEADER CSV;
 " | psql -U $pg_user keepright > keepright-tasks/almostjunction.csv
 

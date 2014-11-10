@@ -22,27 +22,27 @@ echo "
 " | psql -U $pg_user osmi > osmi-tasks/intersections.csv
 
 echo "
-    COPY (select way_id, node_id from unconnected_major1) to stdout DELIMITER ',' HEADER CSV;
+    COPY (select way_id, node_id, ST_AsText(wkb_geometry) from unconnected_major1) to stdout DELIMITER ',' HEADER CSV;
 " | psql -U $pg_user osmi > osmi-tasks/unconnected_major1.csv
 
 echo "
-    COPY (select way_id, node_id from unconnected_major2) to stdout DELIMITER ',' HEADER CSV;
+    COPY (select way_id, node_id, ST_AsText(wkb_geometry) from unconnected_major2) to stdout DELIMITER ',' HEADER CSV;
 " | psql -U $pg_user osmi > osmi-tasks/unconnected_major2.csv
 
 echo "
-    COPY (select way_id, node_id from unconnected_major5) to stdout DELIMITER ',' HEADER CSV;
+    COPY (select way_id, node_id, ST_AsText(wkb_geometry) from unconnected_major5) to stdout DELIMITER ',' HEADER CSV;
 " | psql -U $pg_user osmi > osmi-tasks/unconnected_major5.csv
 
 echo "
-    COPY (select way_id, node_id from unconnected_minor1) to stdout DELIMITER ',' HEADER CSV;
+    COPY (select way_id, node_id, ST_AsText(wkb_geometry) from unconnected_minor1) to stdout DELIMITER ',' HEADER CSV;
 " | psql -U $pg_user osmi > osmi-tasks/unconnected_minor1.csv
 
 echo "
-    COPY (select way_id, node_id from unconnected_minor2) to stdout DELIMITER ',' HEADER CSV;
+    COPY (select way_id, node_id, ST_AsText(wkb_geometry) from unconnected_minor2) to stdout DELIMITER ',' HEADER CSV;
 " | psql -U $pg_user osmi > osmi-tasks/unconnected_minor2.csv
 
 echo "
-    COPY (select way_id, node_id from unconnected_minor5) to stdout DELIMITER ',' HEADER CSV;
+    COPY (select way_id, node_id, ST_AsText(wkb_geometry) from unconnected_minor5) to stdout DELIMITER ',' HEADER CSV;
 " | psql -U $pg_user osmi > osmi-tasks/unconnected_minor5.csv
 
 echo "

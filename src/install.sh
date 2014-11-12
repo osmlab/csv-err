@@ -48,6 +48,7 @@ if [ "$platform" = 'linux' ]; then
    sudo killall postgres
 
    cd /var/lib/postgresql/9.3
+   mkdir -p /mnt/data/postgres
    cp -r main /mnt/data/postgres
    chown -R postgres:postgres /mnt/data/postgres
    rm -rf main

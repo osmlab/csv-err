@@ -199,6 +199,7 @@ echo "
     CREATE EXTENSION postgis_topology;
 " | psql -U $pg_user osmi
 
+echo " --- importing osmi"
 # these are seperate because we append to the same table
 for a in $(ls *.unconnected_minor5.gml); do
     if [ $($stat "$a") -gt 1000 ]
@@ -220,7 +221,6 @@ for a in $(ls *.duplicate_ways.gml); do
     fi
 done
 
-echo " --- importing osmi"
 for a in $(ls *.gml); do
     if [ $($stat "$a") -gt 1000 ]
         then

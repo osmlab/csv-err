@@ -67,9 +67,12 @@ echo "
 " | psql -U $pg_user keepright
 # using bytea for now
 
+# clean up any utf8 issues
+iconv -t utf8//IGNORE keepright-errors.txt > clean.txt
+
 echo " --- keepright -> postgres"
 echo "
-    COPY errors from '$PWD/keepright-errors.txt';
+    COPY errors from '$PWD/clean.txt';
 " | psql -U $pg_user keepright
 
 echo "

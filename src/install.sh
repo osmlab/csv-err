@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# disabled due to dead source in default ubuntu AMI
-#set -e -u
-
 # detect platform
 unamestr=`uname`
 if [ "$unamestr" = 'Darwin' ]; then

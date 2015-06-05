@@ -46,4 +46,4 @@ clean:
 
 	sh src/dropdbs.sh
 
-all: keepright osmi	
+all: keepright osmi

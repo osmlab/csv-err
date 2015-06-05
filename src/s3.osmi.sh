@@ -13,7 +13,9 @@ rm -rf osmi-tasks/dupes
 zip -r ${FILE} osmi-tasks/
 cp ${FILE} osmi-latest.zip
 
-s3cmd put --acl-public ${FILE} s3://to-fix/${FILE}
-s3cmd put --acl-public osmi-latest.zip s3://to-fix/osmi-latest.zip
+if $(which s3cmd); then
+    s3cmd put --acl-public ${FILE} s3://to-fix/${FILE}
+    s3cmd put --acl-public osmi-latest.zip s3://to-fix/osmi-latest.zip
+fi
 
 rm -rf osmi-*.zip

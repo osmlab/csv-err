@@ -59,8 +59,10 @@ if [ "$platform" = 'linux' ]; then
    # I don't know why but sometimes it doesn't start the first time :/
    sudo /etc/init.d/postgresql start
 
-   echo -e "-----\n\n"
-   s3cmd --configure
-   # fix permissions
-   chown ubuntu:ubuntu ~/.s3cfg
+   if $(which s3cmd); then
+      echo -e "-----\n\n"
+      s3cmd --configure
+      # fix permissions
+      chown ubuntu:ubuntu ~/.s3cfg
+   fi
 fi

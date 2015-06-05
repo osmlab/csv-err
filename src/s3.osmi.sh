@@ -16,6 +16,5 @@ cp ${FILE} osmi-latest.zip
 if $(which s3cmd); then
     s3cmd put --acl-public ${FILE} s3://to-fix/${FILE}
     s3cmd put --acl-public osmi-latest.zip s3://to-fix/osmi-latest.zip
+    rm -rf osmi-*.zip
 fi
-
-rm -rf osmi-*.zip

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # set $platform to override
-if [[ -n "$platform" ]]; then
+if [ -n "$platform" ]; then
    # detect platform
    unamestr=`uname`
    if [ "$unamestr" = 'Darwin' ]; then

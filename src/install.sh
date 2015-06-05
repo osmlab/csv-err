@@ -1,11 +1,14 @@
 #!/bin/sh
 
-# detect platform
-unamestr=`uname`
-if [ "$unamestr" = 'Darwin' ]; then
-   platform='osx'
-elif [ "$unamestr" = 'Linux' ]; then
-   platform='linux'
+# set $platform to override
+if [[ -n "$platform" ]]; then
+   # detect platform
+   unamestr=`uname`
+   if [ "$unamestr" = 'Darwin' ]; then
+      platform='osx'
+   elif [ "$unamestr" = 'Linux' ]; then
+      platform='linux'
+   fi
 fi
 
 # handle dependencies

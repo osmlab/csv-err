@@ -6,7 +6,7 @@ mkdir -p keepright-tasks/dupes/
 mv keepright-tasks/*.csv keepright-tasks/dupes/
 
 for a in $(ls keepright-tasks/dupes/*.csv); do
-    uniq $a > "keepright-tasks/$(basename $a)"
+    (head -n 2 $a && tail -n +3 $a | sort) | uniq > "keepright-tasks/$(basename $a)"
 done
 
 rm -rf keepright-tasks/dupes

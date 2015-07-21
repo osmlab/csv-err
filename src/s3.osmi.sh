@@ -6,7 +6,7 @@ mkdir -p osmi-tasks/dupes/
 mv osmi-tasks/*.csv osmi-tasks/dupes/
 
 for a in $(ls osmi-tasks/dupes/*.csv); do
-    uniq $a > "osmi-tasks/$(basename $a)"
+    (head -n 2 $a && tail -n +3 $a | sort) | uniq > "osmi-tasks/$(basename $a)"
 done
 
 rm -rf osmi-tasks/dupes

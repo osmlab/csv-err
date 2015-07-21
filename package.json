@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "scripts": {
-    "start": "make install; make all"
+    "start": "make install > install.log 2>&1; make all > all.log 2>&1"
   },
   "repository": {
     "type": "git",
